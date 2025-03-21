@@ -1,0 +1,214 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+  <script src="cordova.js"></script>
+  <script src="components/loader.js"></script>
+  <script src="lib/onsenui/js/onsenui.min.js"></script>
+  <link rel="stylesheet" href="components/loader.css">
+  <link rel="stylesheet" href="lib/onsenui/css/onsenui.css">
+  <link rel="stylesheet" href="lib/onsenui/css/onsen-css-components.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Use the side panel navagation paradigm; so, whole app exists in <ons-splitter> --> 
+    <ons-splitter>
+        <!-- Define all side panels in <ons-splitter-side> -->
+            <ons-splitter-side collapse id="menuParent">
+                <ons-page>
+                    <ons-list-item onclick="loadPageViaMenu('homeParent.html', '#menuParent');">Home</ons-list-item>
+                    <ons-list-item onclick="loadPageViaMenu('collectionParent.html','#menuParent');"><ons-icon icon="md-face"></ons-icon> &nbsp; Collection</ons-list-item>
+                    <ons-list-item onclick="loadPageViaMenu('profileParent.html','#menuParent');">Profile</ons-list-item>
+                    <ons-list-item onclick="loadPageViaMenu('aboutParent.html', '#menuParent');">About</ons-list-item>
+                    <ons-list-item onclick="loadPageViaMenu('xyz.html');">Locations</ons-list-item>
+                    <ons-list-item onclick="fnLogOut();">Log Out</ons-list-item>
+                </ons-page>
+            </ons-splitter-side>
+            <ons-splitter-side collapse id="menuChild">
+                <ons-list-item>Home</ons-list-item>
+                <ons-list-item>Kid's Corner</ons-list-item>
+            </ons-splitter-side>
+
+        <!-- Define main screens in <ons-splitter-content> -->
+            <ons-splitter-content>
+                <!-- Create a blank container to dynamically load the right screen at the right time -->
+                <ons-navigator id="appNav"></ons-navigator>
+
+                <!-- A screenful of content is in a <tempate> -->
+                <template id="welcome.html">
+                    <ons-page>
+                        <div class="divStyleCenter">
+                            <h1>MyApp</h1>
+                            <p>
+                                Log In<br>
+                                <ons-input type="email" required modifier="underbar" placeholder="email@example.com" id="loginEmail"></ons-input></br>
+                                <ons-input type="password" required modifier="underbar" placeholder="CatDogBird99!" id="loginPWD"></ons-input>
+                            </p>
+                            <p>
+                                <ons-button onclick="fnLogIn();">Go</ons-button>
+                            </p>
+                            <hr style="width: 85%;">
+                            <p>
+                                Don't have an account?<br>
+                                <!-- 
+                                    NOTE: because we have " (double quote) for onclick,
+                                    we cannot use it for the pageID we're feeding loadPage(),
+                                    so, we use another (like ' single quote [or ` backtick]), instead
+                                -->
+                                <ons-button onclick="loadPage('signup.html');">Sign Up</ons-button>
+                            </p>
+                        </div>
+                    </ons-page>
+                </template>
+                <template id="homeParent.html">
+                    <ons-page>
+                        <ons-toolbar>
+                            <div class="left">
+                                <ons-toolbar-button onclick="sideMenuOpen('#menuParent');">
+                                    <ons-icon icon="md-menu"></ons-icon>
+                                </ons-toolbar-button>
+                            </div>
+                            <div class="center">PARENT</div>
+                        </ons-toolbar>
+                        <div class="divStyleMain">
+                                <h2>Welcome to the app!</h2>
+                                <p>Main content goes here, like pictures, etc</p>
+
+                                
+                        </div>
+                    </ons-page>
+                </template>
+                <template id="homeChild.html"><ons-page><h1>CHILD</h1><ons-button onclick="fnLogOut();">LOG OUT</ons-button></ons-page></template>
+                <template id="homeOwner.html"><ons-page><h1>OWNER</h1><ons-button onclick="fnLogOut();">LOG OUT</ons-button></ons-page></template>
+                <template id="profileParent.html">
+                    <ons-page>
+                        <ons-toolbar>
+                            <div class="left">
+                                <ons-toolbar-button onclick="sideMenuOpen('#menuParent');">
+                                    <ons-icon icon="md-menu"></ons-icon>
+                                </ons-toolbar-button>
+                            </div>
+                            <div class="center">Profile</div>
+                        </ons-toolbar>
+                        <div class="divStyleMain">
+                            <h2>tmp</h2>
+                            <ons-button onclick="comicDeleteColl();">Delete Collection</ons-button>
+                        </div>
+                    </ons-page>
+                </template>
+                <template id="profileChild.html">pppp</template>
+                <template id="aboutParent.html">
+                    <ons-page>
+                        <ons-toolbar>
+                            <div class="left">
+                                <ons-toolbar-button onclick="sideMenuOpen('#menuParent');">
+                                    <ons-icon icon="md-menu"></ons-icon>
+                                </ons-toolbar-button>
+                            </div>
+                            <div class="center">About</div>
+                        </ons-toolbar>
+                        <div class="divStyleMain">
+                            <h2>tmp 2</h2>
+                        </div>
+                    </ons-page>    
+                </template>
+                <template id="locations.html">lll</template>
+                <template id="signup.html">
+                    <ons-page>
+                        <ons-toolbar>
+                            <div class="left"><ons-back-button></ons-back-button></div>
+                            <div class="center">Sign Up</div>
+                        </ons-toolbar>
+                        <div class="divStyleCenter">
+                            <ons-input required type="email"    modifier="underbar" placeholder="peter@parker.com" id="signupEmail"></ons-input><br>
+                            <ons-input required type="password" modifier="underbar" placeholder="CatDogBird99!"    id="signupPWD"></ons-input><br>
+                            <ons-input required type="password" modifier="underbar" placeholder="CatDogBird99!"    id="signupPWDConfirm"></ons-input><br>
+                            Are you at least 13 years old?<br>
+                            <ons-radio required name="signupAge" value="true"  id="signupAgeTrue">Yes:</ons-radio>
+                            <ons-radio required name="signupAge" value="false" id="signupAgeFalse">No:</ons-radio>
+                            <p>
+                                <ons-button onclick="fnClearSignUp()" id="signupClear">Clear</ons-button>
+                                <ons-button onclick="fnSignUp();" id="signupCreate">Create</ons-button>
+                            </p>
+                        </div>
+                    </ons-page>
+                </template>
+
+                <template id="collectionParent.html">
+                    <ons-page>
+                        <ons-toolbar>
+                            <div class="left">
+                                <ons-toolbar-button onclick="sideMenuOpen('#menuParent');">
+                                    <ons-icon icon="md-menu"></ons-icon>
+                                </ons-toolbar-button>
+                            </div>
+                            <div class="center">Collection</div>
+                        </ons-toolbar>
+                        <div class="divStyleMain">
+                            <!-- Show collection -->
+                            <div id="divComicCollection">&nbsp;</div>
+                            <hr>
+                            <!-- Input collection -->
+                            <h3>Save a Comic</h3>
+                            <div class="formStyle">
+                                <ons-input type="text" required placeholder="Spider-Man" modifier="underbar" id="inSaveTitle"></ons-input><br>
+                                <ons-input type="number" required placeholder="1" modifier="underbar" id="inSaveNumber"></ons-input><br>
+                                <ons-input type="number" required placeholder="1990" modifier="underbar" id="inSaveYear"></ons-input><br>
+                                <ons-input type="text" required placeholder="1st Issue Collector's Item" modifier="underbar" id="inSaveNote"></ons-input><br>
+                                <br>
+                                <ons-button onclick="comicSaveClear();">Clear</ons-button> <ons-button onclick="comicSave();">Save</ons-button>
+                            </div>                            
+                        </div>
+                    </ons-page>    
+                </template>
+
+                <!-- Popup to show comic details -->
+                <!-- Since this is a POPUP, it has a new Element -->
+                <template id="comicDetail.html">
+                        <ons-dialog id="comicDetail">
+                            <ons-toolbar>
+                                <div class="right">
+                                    <ons-toolbar-button onclick="comicEditInfoClose();">
+                                        <ons-icon icon="md-close"></ons-icon>
+                                    </ons-toolbar-button>
+                                </div>
+                                <div class="center">Comic Info</div>
+                            </ons-toolbar>
+                            <div style="padding: 3em 2em 1em 2em;" class="">
+                                <em>Title:</em> <ons-input type="text" required modifier="underbar"     id="inputEditTitle"></ons-input><br>
+                                <em>Number:</em> <ons-input type="number" required modifier="underbar"  id="inputEditNumber"></ons-input><br>
+                                <em>Year:</em> <ons-input type="number" required modifier="underbar"    id="inputEditYear"></ons-input><br>
+                                <em>Note:</em> <ons-input type="text" modifier="underbar"               id="inputEditNote"></ons-input><br>
+                                <ons-button onclick="comicEditDelete();">Delete</ons-button>  <ons-button onclick="comicEditUpdate();">Update Comic</ons-button>
+                            </div>
+                        </ons-dialog>    
+                    </template>
+
+                <!-- 
+                    <template id="GENERIC.html">
+                        <ons-page>
+                            <ons-toolbar>
+                                <div class="left">
+                                    <ons-toolbar-button onclick="sideMenuOpen('#menuParent');">
+                                        <ons-icon icon="md-menu"></ons-icon>
+                                    </ons-toolbar-button>
+                                </div>
+                                <div class="center">GENERIC</div>
+                            </ons-toolbar>
+                            <div class="divStyleMain">
+                                <h2>GENERIC</h2>
+                            </div>
+                        </ons-page>    
+                    </template>
+                  --> 
+            </ons-splitter-content>
+    </ons-splitter><!-- END OF THE APP -->
+    <!-- 
+    <script src="https://cdn.jsdelivr.net/npm/pouchdb@9.0.0/dist/pouchdb.min.js"></script>
+    -->
+    <script src="js/pouchdb-9.0.0.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+/* Center all content and a lot of top padding */
+.divStyleCenter {
+    text-align: center;
+    padding-top: 5em;
+}
+
+/* Generic center all, little padding all around */
+.divStyleMain {
+    text-align: center;
+    padding: 0.75em;
+}
